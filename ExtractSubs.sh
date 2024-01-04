@@ -21,8 +21,8 @@ function extractSubs() {
         		echo "$a"
 			if [[ ($i == *.mkv) || ($i == *.mp4) || ($i == *.wmv) || ($i == *.mov) ]]; then
 				present=$(mediainfo --Inform="General;%TextCount%" "$i")
-				echo $present
-				if [[ "$present" > 0 ]]; then
+				echo "$present"
+				if [[ "$present" -gt 0 ]]; then
 	        			ffmpeg -i "$i" "$a.srt"
 				fi
 			fi
