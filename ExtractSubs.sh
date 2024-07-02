@@ -1,36 +1,19 @@
 #!/bin/bash
 function extractSubs() {
-	for i in "$1/"*;
-	do
-		if [[ -d "$i"  ]] ; then
-			for file in "$i/"*
-			do
-				extractSubs "$i"
-			done
-    		elif [[ -f $i ]];then
-			echo ""
-			echo ""
-			echo "--------------------------------------------"
-			echo ""
-			echo ""
-	        	e=$(basename "$i" | awk -F "." '{print $NF}')
-        		echo "extension:"
-			echo "$e"
-        		a=$(basename "$i" ".$e")
-        		echo "base:"
-        		echo "$a"
+	for i in "$1"/*; do
+		if [ -d "$i" ]; then
+			extractSubs "$i"
+		elif [ -f "$i" ]; then
+			e=$(basename "$i" | awk -F "." '{print $NF}')
+			a=$(basename "$i" ".$e")
+			p=$(dirname "$i")
 			if [[ ($i == *.mkv) || ($i == *.mp4) || ($i == *.wmv) || ($i == *.mov) ]]; then
 				present=$(mediainfo --Inform="General;%TextCount%" "$i")
 				echo "$present"
 				if [[ "$present" -gt 0 ]]; then
-	        			ffmpeg -i "$i" "$a.srt"
+					ffmpeg -i "$i" "$p/$a.srt"
 				fi
 			fi
-			echo ""
-			echo ""
-			echo "--------------------------------------------"
-			echo ""
-			echo ""
 		fi
 	done
 }
