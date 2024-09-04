@@ -31,4 +31,4 @@ extract_subs() {
 }
 
 # Start extraction process from the current directory
-extract_subs "$(pwd)"
+extract_subs "$1"
